@@ -14,6 +14,7 @@ class LoginPage extends StatefulWidget {
 
 class LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   LoginForm loginForm = new LoginForm();
 
@@ -22,30 +23,19 @@ class LoginPageState extends State<LoginPage> {
     form.save();
 
     if (loginForm.username == '' || loginForm.password == '') {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // Retrieve the text the user has typed in using our
-              // TextEditingController
-              content: Text('กรุณาระบุ Username or Password'),
-            );
-          });
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('กรุณาระบุ Username or Password'),
+      ));
+
       return;
     }
 
     if (loginForm.username == 'admin' && loginForm.password == 'admin') {
       Navigator.pushNamed(context, '/home');
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // Retrieve the text the user has typed in using our
-              // TextEditingController
-              content: Text('Username or Password ไม่ถูกต้อง'),
-            );
-          });
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('Username or Password ไม่ถูกต้อง'),
+      ));
     }
   }
 
@@ -84,6 +74,7 @@ class LoginPageState extends State<LoginPage> {
     );
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Form(
         key: _formKey,
         autovalidate: true,
@@ -93,6 +84,11 @@ class LoginPageState extends State<LoginPage> {
             shrinkWrap: true,
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             children: <Widget>[
+              Image.asset(
+                'images/logo.jpg',
+                height: 200,
+              ),
+              SizedBox(height: 24.0),
               usernameTextField,
               SizedBox(height: 24.0),
               passwordTextField,

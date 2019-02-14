@@ -15,6 +15,7 @@ class RegisterPage extends StatefulWidget {
 
 class RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
+  final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   RegisterForm registerForm = new RegisterForm();
 
@@ -25,28 +26,18 @@ class RegisterPageState extends State<RegisterPage> {
     if (registerForm.username == '' ||
         registerForm.password == '' ||
         registerForm.confirmPassword == '') {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // Retrieve the text the user has typed in using our
-              // TextEditingController
-              content: Text('กรุณาระบุข้อมูลให้ครบถ้วน'),
-            );
-          });
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('กรุณาระบุข้อมูลให้ครบถ้วน'),
+      ));
+
       return;
     }
 
     if (registerForm.username == 'admin') {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              // Retrieve the text the user has typed in using our
-              // TextEditingController
-              content: Text('User นี้มีอยู่ในระบบแล้ว'),
-            );
-          });
+      _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text('User นี้มีอยู่ในระบบแล้ว'),
+      ));
+
       return;
     }
 
@@ -90,6 +81,7 @@ class RegisterPageState extends State<RegisterPage> {
     );
 
     return Scaffold(
+      key: _scaffoldKey,
       body: Form(
         key: _formKey,
         autovalidate: true,
