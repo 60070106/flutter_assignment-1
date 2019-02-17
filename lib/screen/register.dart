@@ -41,7 +41,7 @@ class RegisterPageState extends State<RegisterPage> {
       return;
     }
 
-    Navigator.pushReplacementNamed(context, '/home');
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   @override
